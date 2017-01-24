@@ -1,0 +1,15 @@
+{
+    "SourceMemberID" : "a0c2afd9-88d9-4f38-a5cc-c30977717ea1",
+    "TargetMemberID" : "696aab3b-dd12-458b-bfb5-54e41f234d65",
+    "DetectionTime" : 12345346,
+    "TeamID" : "2224e9b4-c3e5-41f3-a640-185a6f116276",
+    "SourceMemberLocation" : {
+        "Latitude" : 12,
+        "Longitude" : 50
+    },
+    "TargetMemberLocation" : {
+        "Latitude" : 16,
+        "Longitude" : 32
+    },
+    "MemberDistance" : 13.5
+}

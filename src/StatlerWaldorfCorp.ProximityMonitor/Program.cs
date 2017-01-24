@@ -10,8 +10,8 @@ namespace StatlerWaldorfCorp.ProximityMonitor
         {
             IConfiguration config = new ConfigurationBuilder()
  				.AddCommandLine(args)
-				.Build();
-
+				.Build();			
+			
 	    	var host = new WebHostBuilder()
 				.UseKestrel()
 				.UseStartup<Startup>()

@@ -6,3 +6,5 @@ obj
 .vscode/
 .wercker/
 .DS_Store
+run_with_pubnubkeys.sh
+rtpage.html
