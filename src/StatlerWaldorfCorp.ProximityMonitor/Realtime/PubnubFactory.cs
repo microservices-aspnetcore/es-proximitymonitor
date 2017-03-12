@@ -1,7 +1,6 @@
 using System;
 using Microsoft.Extensions.Options;
 using PubnubApi;
-using Steeltoe.Extensions.Configuration.CloudFoundry;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 

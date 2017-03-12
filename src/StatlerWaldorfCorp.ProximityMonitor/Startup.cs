@@ -4,15 +4,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using StatlerWaldorfCorp.ProximityMonitor.Queues;
-using Steeltoe.Extensions.Configuration;
-using Steeltoe.Extensions.Configuration.CloudFoundry;
-using Steeltoe.CloudFoundry.Connector.Rabbit;
 using StatlerWaldorfCorp.ProximityMonitor.Realtime;
 using RabbitMQ.Client.Events;
 using StatlerWaldorfCorp.ProximityMonitor.Events;
 using Microsoft.Extensions.Options;
+using RabbitMQ.Client;
 using StatlerWaldorfCorp.ProximityMonitor.TeamService;
-
 
 namespace StatlerWaldorfCorp.ProximityMonitor
 {
@@ -26,8 +23,7 @@ namespace StatlerWaldorfCorp.ProximityMonitor
             var builder = new ConfigurationBuilder()                
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
-		        .AddEnvironmentVariables()		    
-                .AddCloudFoundry();
+		        .AddEnvironmentVariables();                
 
 	        Configuration = builder.Build();    		        
         }
@@ -38,15 +34,14 @@ namespace StatlerWaldorfCorp.ProximityMonitor
         {
             services.AddMvc();
             services.AddOptions();            
-                        
-            services.Configure<CloudFoundryApplicationOptions>(Configuration);
-            services.Configure<CloudFoundryServicesOptions>(Configuration);                                   
 
-            services.AddRabbitConnection(Configuration);
 
             services.Configure<QueueOptions>(Configuration.GetSection("QueueOptions"));
             services.Configure<PubnubOptions>(Configuration.GetSection("PubnubOptions"));
+            services.Configure<TeamServiceOptions>(Configuration.GetSection("teamservice"));
+            services.Configure<AMQPOptions>(Configuration.GetSection("amqp"));
 
+            services.AddTransient(typeof(IConnectionFactory), typeof(AMQPConnectionFactory));
             services.AddTransient(typeof(EventingBasicConsumer), typeof(RabbitMQEventingConsumer));
             services.AddSingleton(typeof(IEventSubscriber), typeof(RabbitMQEventSubscriber));
             services.AddSingleton(typeof(IEventProcessor), typeof(ProximityDetectedEventProcessor));

@@ -5,7 +5,7 @@ namespace StatlerWaldorfCorp.ProximityMonitor.Queues
 {
     public class RabbitMQEventingConsumer : EventingBasicConsumer
     {
-        public RabbitMQEventingConsumer(ConnectionFactory factory) : base(factory.CreateConnection().CreateModel())
+        public RabbitMQEventingConsumer(IConnectionFactory factory) : base(factory.CreateConnection().CreateModel())
         {            
         }
     }

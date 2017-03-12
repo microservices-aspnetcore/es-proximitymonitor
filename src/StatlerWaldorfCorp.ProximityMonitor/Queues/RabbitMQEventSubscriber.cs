@@ -21,7 +21,7 @@ namespace StatlerWaldorfCorp.ProximityMonitor.Queues
         private ILogger logger;
 
         public RabbitMQEventSubscriber(ILogger<RabbitMQEventSubscriber> logger,
-            ConnectionFactory connectionFactory,
+            IConnectionFactory connectionFactory,
             IOptions<QueueOptions> queueOptions,
             EventingBasicConsumer consumer)
         {

@@ -2,7 +2,6 @@ using System;
 using System.Net.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Steeltoe.Extensions.Configuration.CloudFoundry;
 using System.Linq;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
@@ -11,22 +10,23 @@ namespace StatlerWaldorfCorp.ProximityMonitor.TeamService
 {
     public class HttpTeamServiceClient : ITeamServiceClient
     {
-        private readonly Service teamServiceBinding;
+        private readonly TeamServiceOptions teamServiceOptions;
 
         private readonly ILogger logger;
 
         private HttpClient httpClient;
         
         public HttpTeamServiceClient(ILogger<HttpTeamServiceClient> logger,
-            IOptions<CloudFoundryServicesOptions> cfOptions)
+            IOptions<TeamServiceOptions> serviceOptions)
         {
             this.logger = logger;               
-            this.teamServiceBinding = cfOptions.Value.Services.FirstOrDefault( s => s.Name == "teamservice");
+            this.teamServiceOptions = serviceOptions.Value;
+            
             logger.LogInformation("Team Service HTTP client using URL {0}",
-                teamServiceBinding.Credentials["url"].Value);
+                teamServiceOptions.Url);
 
             httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri(teamServiceBinding.Credentials["url"].Value);
+            httpClient.BaseAddress = new Uri(teamServiceOptions.Url);
         }
 
         public Team GetTeam(Guid teamId)
